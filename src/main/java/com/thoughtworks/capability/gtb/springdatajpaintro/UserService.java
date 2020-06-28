@@ -23,4 +23,13 @@ public class UserService {
         users.put(user.getId(), user);
         return user.getId();
     }
+
+    public Optional<List<Education>> getEducationsForUser(Long userId) {
+        return findById(userId).map(User::getEducations);
+    }
+
+    public void addEducationForUser(Long userId, Education education) {
+        User user = findById(userId).orElseThrow(() -> new UserNotExistedException("User Not Found"));
+        user.addEducation(education);
+    }
 }
