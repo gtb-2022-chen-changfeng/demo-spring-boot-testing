@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class UserService {
     final AtomicLong userIdSeq = new AtomicLong();
     final Map<Long, User> users = new HashMap<>();
+    final Map<Long, List<Education>> educations = new HashMap<>();
 
     public List<User> findUsers() {
         return new ArrayList<>(users.values());
@@ -22,15 +23,17 @@ public class UserService {
     public Long createUser(User user) {
         user.setId(userIdSeq.incrementAndGet());
         users.put(user.getId(), user);
+        // initialize educations for new user
+        educations.put(user.getId(), new ArrayList<>());
         return user.getId();
     }
 
     public List<Education> getEducationsForUser(Long userId) {
-        return findById(userId).getEducations();
+        return Optional.ofNullable(educations.get(userId))
+                .orElseThrow(() -> new UserNotExistedException("User Not Found"));
     }
 
     public void addEducationForUser(Long userId, Education education) {
-        User user = findById(userId);
-        user.addEducation(education);
+        getEducationsForUser(userId).add(education);
     }
 }
