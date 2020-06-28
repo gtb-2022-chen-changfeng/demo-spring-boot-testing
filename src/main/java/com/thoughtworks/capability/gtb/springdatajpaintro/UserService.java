@@ -24,13 +24,17 @@ public class UserService {
         user.setId(userIdSeq.incrementAndGet());
         users.put(user.getId(), user);
         // initialize educations for new user
-        educations.put(user.getId(), new ArrayList<>());
+//        educations.put(user.getId(), new ArrayList<>());
         return user.getId();
     }
 
     public List<Education> getEducationsForUser(Long userId) {
-        return Optional.ofNullable(educations.get(userId))
-                .orElseThrow(() -> new UserNotExistedException("User Not Found"));
+        // determine if the user exists or not first
+        findById(userId);
+        return educations.get(userId);
+
+//        return Optional.ofNullable(educations.get(userId))
+//                .orElseThrow(() -> new UserNotExistedException("User Not Found"));
     }
 
     public void addEducationForUser(Long userId, Education education) {
