@@ -10,26 +10,27 @@ public class UserService {
     final AtomicLong userIdSeq = new AtomicLong();
     final Map<Long, User> users = new HashMap<>();
 
-    List<User> findUsers() {
+    public List<User> findUsers() {
         return new ArrayList<>(users.values());
     }
 
-    Optional<User> findById(Long id) {
-        return Optional.ofNullable(users.get(id));
+    public User findById(Long id) {
+        return Optional.ofNullable(users.get(id))
+                .orElseThrow(() -> new UserNotExistedException("User Not Found"));
     }
 
-    Long createUser(User user) {
+    public Long createUser(User user) {
         user.setId(userIdSeq.incrementAndGet());
         users.put(user.getId(), user);
         return user.getId();
     }
 
-    public Optional<List<Education>> getEducationsForUser(Long userId) {
-        return findById(userId).map(User::getEducations);
+    public List<Education> getEducationsForUser(Long userId) {
+        return findById(userId).getEducations();
     }
 
     public void addEducationForUser(Long userId, Education education) {
-        User user = findById(userId).orElseThrow(() -> new UserNotExistedException("User Not Found"));
+        User user = findById(userId);
         user.addEducation(education);
     }
 }

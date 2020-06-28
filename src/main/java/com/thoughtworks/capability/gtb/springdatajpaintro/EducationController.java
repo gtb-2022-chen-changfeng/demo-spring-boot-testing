@@ -1,10 +1,7 @@
 package com.thoughtworks.capability.gtb.springdatajpaintro;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -18,8 +15,7 @@ public class EducationController {
 
     @GetMapping("/users/{userId}/educations")
     public List<Education> getEducationsByUserId(@PathVariable Long userId) {
-        return userService.getEducationsForUser(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return userService.getEducationsForUser(userId);
     }
 
     @PostMapping("/users/{userId}/educations")
