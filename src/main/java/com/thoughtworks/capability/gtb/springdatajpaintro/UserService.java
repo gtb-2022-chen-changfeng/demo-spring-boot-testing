@@ -2,42 +2,39 @@ package com.thoughtworks.capability.gtb.springdatajpaintro;
 
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.List;
 
 @Service
 public class UserService {
-    final AtomicLong userIdSeq = new AtomicLong();
-    final Map<Long, User> users = new HashMap<>();
-    final Map<Long, List<Education>> educations = new HashMap<>();
+    final UserDao userDao;
+    final EducationDao educationDao;
+
+    public UserService(UserDao userDao, EducationDao educationDao) {
+        this.userDao = userDao;
+        this.educationDao = educationDao;
+    }
 
     public List<User> findUsers() {
-        return new ArrayList<>(users.values());
+        return userDao.findAll();
     }
 
     public User findById(Long id) {
-        return Optional.ofNullable(users.get(id))
+        return userDao.findOneById(id)
                 .orElseThrow(() -> new UserNotExistedException("User Not Found"));
     }
 
     public Long createUser(User user) {
-        user.setId(userIdSeq.incrementAndGet());
-        users.put(user.getId(), user);
-        // initialize educations for new user
-//        educations.put(user.getId(), new ArrayList<>());
+        userDao.save(user);
         return user.getId();
     }
 
     public List<Education> getEducationsForUser(Long userId) {
-        // determine if the user exists or not first
         findById(userId);
-        return educations.get(userId);
-
-//        return Optional.ofNullable(educations.get(userId))
-//                .orElseThrow(() -> new UserNotExistedException("User Not Found"));
+        return educationDao.findAllByUserId(userId);
     }
 
     public void addEducationForUser(Long userId, Education education) {
-        getEducationsForUser(userId).add(education);
+        findById(userId);
+        educationDao.save(education);
     }
 }
