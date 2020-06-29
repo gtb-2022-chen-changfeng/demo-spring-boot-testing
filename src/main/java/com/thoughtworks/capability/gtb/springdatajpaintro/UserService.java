@@ -6,25 +6,25 @@ import java.util.List;
 
 @Service
 public class UserService {
-    final UserDao userDao;
+    final UserRepository userRepository;
     final EducationDao educationDao;
 
-    public UserService(UserDao userDao, EducationDao educationDao) {
-        this.userDao = userDao;
+    public UserService(UserRepository userRepository, EducationDao educationDao) {
+        this.userRepository = userRepository;
         this.educationDao = educationDao;
     }
 
     public List<User> findUsers() {
-        return userDao.findAll();
+        return userRepository.findAll();
     }
 
     public User findById(Long id) {
-        return userDao.findOneById(id)
+        return userRepository.findOneById(id)
                 .orElseThrow(() -> new UserNotExistedException("User Not Found"));
     }
 
     public Long createUser(User user) {
-        userDao.save(user);
+        userRepository.save(user);
         return user.getId();
     }
 
