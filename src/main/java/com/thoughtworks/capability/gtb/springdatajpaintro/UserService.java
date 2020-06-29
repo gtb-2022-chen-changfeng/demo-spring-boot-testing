@@ -1,17 +1,17 @@
 package com.thoughtworks.capability.gtb.springdatajpaintro;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 @Service
 public class UserService {
     final UserRepository userRepository;
-    final EducationDao educationDao;
 
-    public UserService(UserRepository userRepository, EducationDao educationDao) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.educationDao = educationDao;
     }
 
     public List<User> findUsers() {
@@ -29,12 +29,12 @@ public class UserService {
     }
 
     public List<Education> getEducationsForUser(Long userId) {
-        findById(userId);
-        return educationDao.findAllByUserId(userId);
+        User user = findById(userId);
+        return user.getEducations();
     }
 
     public void addEducationForUser(Long userId, Education education) {
-        findById(userId);
-        educationDao.save(education);
+        User user = findById(userId);
+        user.addEducation(education);
     }
 }

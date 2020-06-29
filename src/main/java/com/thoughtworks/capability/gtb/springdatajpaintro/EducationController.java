@@ -20,7 +20,6 @@ public class EducationController {
 
     @PostMapping("/users/{userId}/educations")
     public void addEducationForUser(@PathVariable Long userId, @RequestBody Education education) {
-        education.setUserId(userId);
         userService.addEducationForUser(userId, education);
     }
 }
