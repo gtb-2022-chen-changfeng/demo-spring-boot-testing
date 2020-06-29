@@ -1,14 +1,12 @@
 package com.thoughtworks.capability.gtb.springdatajpaintro;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Component
 public class JdbcUserDao implements UserDao {
 
     @Value("${spring.datasource.url}")
