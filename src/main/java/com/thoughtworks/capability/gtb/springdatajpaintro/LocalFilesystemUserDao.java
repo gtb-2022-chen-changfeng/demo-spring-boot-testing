@@ -2,16 +2,15 @@ package com.thoughtworks.capability.gtb.springdatajpaintro;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.stereotype.Component;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
-@Component
 public class LocalFilesystemUserDao implements UserDao {
     public static final String USERS_DATA_FILE_PATH = "/Users/xifwang/tmp/local-filesystem-data-store/users.data";
     final ObjectMapper objectMapper = new ObjectMapper();
