@@ -121,7 +121,6 @@ public class WebMvcTestUserControllerTest {
         @Nested
         class WhenRequestIsValid {
 
-            @Disabled
             @Test
             public void should_create_new_user_and_return_its_id() throws Exception {
                 when(userService.createUser(newUserRequest)).thenReturn(666L);

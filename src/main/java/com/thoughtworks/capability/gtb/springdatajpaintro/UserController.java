@@ -1,5 +1,6 @@
 package com.thoughtworks.capability.gtb.springdatajpaintro;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class UserController {
         return userService.findById(id);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/users")
     public Long createUser(@RequestBody User user) {
         return userService.createUser(user);

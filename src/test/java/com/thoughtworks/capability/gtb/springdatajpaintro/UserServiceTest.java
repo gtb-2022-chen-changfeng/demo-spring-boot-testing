@@ -60,13 +60,13 @@ public class UserServiceTest {
 
             @Test
             void should_throw_exception() {
-                when(userRepository.findOneById(222L)).thenThrow(new UserNotExistedException("foobar"));
+                when(userRepository.findOneById(222L)).thenReturn(Optional.empty());
 
                 UserNotExistedException thrownException = assertThrows(UserNotExistedException.class, () -> {
                     userService.findById(222L);
                 });
 
-                assertThat(thrownException.getMessage()).containsSequence("foobar");
+                assertThat(thrownException.getMessage()).containsSequence("User Not Found");
             }
         }
     }
