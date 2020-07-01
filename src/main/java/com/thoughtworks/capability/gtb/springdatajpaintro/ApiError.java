@@ -1,11 +1,13 @@
 package com.thoughtworks.capability.gtb.springdatajpaintro;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 import java.time.OffsetDateTime;
 
 @Data
+@NoArgsConstructor
 public class ApiError {
     private int status;
     private String error;
