@@ -1,5 +1,11 @@
 package com.thoughtworks.capability.gtb.springdatajpaintro;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+import java.util.Optional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -8,13 +14,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -37,13 +36,13 @@ public class UserServiceTest {
     }
 
     @Nested
-    class FindById {
+    class FindByIdTest {
 
         @Nested
-        class WhenIdExists {
+        class WhenIdExistsTest {
 
             @Test
-            public void should_return_user() {
+            void should_return_user() {
                 when(userRepository.findOneById(123L)).thenReturn(Optional.of(user));
 
                 User foundUser = userService.findById(123L);
@@ -59,7 +58,7 @@ public class UserServiceTest {
         }
 
         @Nested
-        class WhenUserIdNotExisted {
+        class WhenUserIdNotExistedTest {
 
             @Test
             void should_throw_exception() {
@@ -75,10 +74,10 @@ public class UserServiceTest {
     }
 
     @Nested
-    class CreateUser {
+    class CreateUserTest {
 
         @Test
-        public void should_save_user_in_repository_when_create_user() {
+        void should_save_user_in_repository_when_create_user() {
             // given
             UserRepository userRepository = Mockito.mock(UserRepository.class);
             Mockito.when(userRepository.save(any(User.class))).thenAnswer(invocation -> {

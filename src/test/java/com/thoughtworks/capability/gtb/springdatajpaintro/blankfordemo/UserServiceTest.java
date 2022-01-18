@@ -3,20 +3,20 @@ package com.thoughtworks.capability.gtb.springdatajpaintro.blankfordemo;
 import com.thoughtworks.capability.gtb.springdatajpaintro.User;
 import org.junit.jupiter.api.Test;
 
-public class UserServiceTest {
+class UserServiceTest {
 
     @Test
-    public void testing_not_with_mockito() {
+    void testing_not_with_mockito() {
 
     }
 
     @Test
-    public void testing_with_mockito() {
+    void testing_with_mockito() {
 
     }
 
     @Test
-    public void testing_with_mockito_injection() {
+    void testing_with_mockito_injection() {
 
     }
 

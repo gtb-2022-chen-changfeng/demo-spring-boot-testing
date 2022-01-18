@@ -21,13 +21,13 @@ public class WebMvcTestUserControllerTest {
     }
 
     @Nested
-    class GetUserById {
+    class GetUserByIdTest {
 
         @Nested
-        class WhenUserIdExists {
+        class WhenUserIdExistsTest {
 
             @Test
-            public void should_return_user_by_id_with_jsonPath() throws Exception {
+            void should_return_user_by_id_with_jsonPath() throws Exception {
 
             }
         }

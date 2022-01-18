@@ -1,5 +1,16 @@
 package com.thoughtworks.capability.gtb.springdatajpaintro;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -15,17 +26,6 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(UserController.class)
 @AutoConfigureJsonTesters
@@ -57,13 +57,13 @@ public class WebMvcTestUserControllerTest {
     }
 
     @Nested
-    class GetUserById {
+    class GetUserByIdTest {
 
         @Nested
-        class WhenUserIdExists {
+        class WhenUserIdExistsTest {
 
             @Test
-            public void should_return_user_by_id_with_jsonPath() throws Exception {
+            void should_return_user_by_id_with_jsonPath() throws Exception {
                 when(userService.findById(123L)).thenReturn(firstUser);
 
                 mockMvc.perform(get("/users/{id}", 123L))
@@ -75,7 +75,7 @@ public class WebMvcTestUserControllerTest {
             }
 
             @Test
-            public void should_return_user_by_id_with_jacksontester() throws Exception {
+            void should_return_user_by_id_with_jacksontester() throws Exception {
                 when(userService.findById(123L)).thenReturn(firstUser);
 
                 MockHttpServletResponse response = mockMvc.perform(get("/users/{id}", 123))
@@ -92,10 +92,10 @@ public class WebMvcTestUserControllerTest {
         }
 
         @Nested
-        class WhenUserIdNotExisted {
+        class WhenUserIdNotExistedTest {
 
             @Test
-            public void should_return_NOT_FOUND() throws Exception {
+            void should_return_NOT_FOUND() throws Exception {
                 when(userService.findById(123L)).thenThrow(new UserNotExistedException("foobar"));
 
                 mockMvc.perform(get("/users/{id}", 123L))
@@ -109,7 +109,7 @@ public class WebMvcTestUserControllerTest {
     }
 
     @Nested
-    class CreateUser {
+    class CreateUserTest {
 
         private User newUserRequest;
 
@@ -124,10 +124,10 @@ public class WebMvcTestUserControllerTest {
         }
 
         @Nested
-        class WhenRequestIsValid {
+        class WhenRequestIsValidTest {
 
             @Test
-            public void should_create_new_user_and_return_its_id() throws Exception {
+            void should_create_new_user_and_return_its_id() throws Exception {
                 when(userService.createUser(newUserRequest)).thenReturn(666L);
 
                 MockHttpServletRequestBuilder requestBuilder = post("/users")

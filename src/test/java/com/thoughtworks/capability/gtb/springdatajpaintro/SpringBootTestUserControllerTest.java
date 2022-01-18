@@ -1,5 +1,8 @@
 package com.thoughtworks.capability.gtb.springdatajpaintro;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Objects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -9,10 +12,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-
-import java.util.Objects;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SpringBootTestUserControllerTest {
@@ -35,13 +34,13 @@ public class SpringBootTestUserControllerTest {
     }
 
     @Nested
-    class GetUserById {
+    class GetUserByIdTest {
 
         @Nested
-        class WhenUserIdExists {
+        class WhenUserIdExistsTest {
 
             @Test
-            public void should_return_user_by_id_with_jsonPath() throws Exception {
+            void should_return_user_by_id_with_jsonPath() throws Exception {
                 User savedUser = userRepository.save(firstUser);
 
                 ResponseEntity<User> responseEntity = restTemplate.getForEntity("/users/{id}", User.class, savedUser.getId());
@@ -61,12 +60,12 @@ public class SpringBootTestUserControllerTest {
         }
 
         @Nested
-        class WhenUserIdNotExisted {
+        class WhenUserIdNotExistedTest {
 
             @Test
-            public void should_return_NOT_FOUND() throws Exception {
+            void should_return_NOT_FOUND() throws Exception {
 
-                ResponseEntity<ApiError> responseEntity = restTemplate.getForEntity("/users/{id}", ApiError.class, 234L);
+                ResponseEntity<ErrorResult> responseEntity = restTemplate.getForEntity("/users/{id}", ErrorResult.class, 234L);
 
                 assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
                 assertThat(responseEntity.getHeaders().getContentType()).isEqualTo(MediaType.APPLICATION_JSON);
@@ -76,7 +75,7 @@ public class SpringBootTestUserControllerTest {
     }
 
     @Nested
-    class CreateUser {
+    class CreateUserTest {
 
         private User newUserRequest;
 
@@ -91,13 +90,13 @@ public class SpringBootTestUserControllerTest {
         }
 
         @Nested
-        class WhenRequestIsValid {
+        class WhenRequestIsValidTest {
 
             @Test
-            public void should_create_new_user_and_return_its_id() throws Exception {
+            void should_create_new_user_and_return_its_id() throws Exception {
 
                 ResponseEntity<Long> responseEntity = restTemplate.postForEntity("/users", newUserRequest, Long.class);
-                assertThat(responseEntity.getBody()).isGreaterThan(0);
+                assertThat(responseEntity.getBody()).isPositive();
             }
         }
     }
